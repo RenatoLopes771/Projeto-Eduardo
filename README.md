@@ -13,3 +13,4 @@ No arquivo Backend.pdf
 # Requisitos
 
 GO >= **1.22.0** 
+SQLite3
