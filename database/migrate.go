@@ -2,11 +2,10 @@ package database
 
 import (
 	"github.com/RenatoLopes771/Projeto-Eduardo/models"
-	"gorm.io/gorm"
 )
 
-func Migrate(DB *gorm.DB) {
+func Migrate() {
 
-	DB.AutoMigrate(&models.Usuario{})
+	Connect().AutoMigrate(&models.Usuario{})
 
 }
