@@ -2,11 +2,19 @@ package controllers
 
 import (
 	"github.com/RenatoLopes771/Projeto-Eduardo/database"
+	_ "github.com/RenatoLopes771/Projeto-Eduardo/docs"
 	"github.com/RenatoLopes771/Projeto-Eduardo/models"
 	"github.com/RenatoLopes771/Projeto-Eduardo/util"
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Usuarios
+// @Accept json
+// @Produce json
+// @Param nome path string true "Nome"
+// @Param email path string true "E-mail"
+// @Param senha path string true "Senha"
+// @Router /usuarios/criar [post]
 func UsuariosCreate(c *gin.Context) {
 
 	var body struct {
@@ -56,25 +64,27 @@ func UsuariosCreate(c *gin.Context) {
 
 	dbresult := DB.Create(&usuario)
 
-	body.Senha = ""
+	usuario.Senha = ""
 
 	if dbresult.Error != nil {
 		c.JSON(400, gin.H{
 			"Message": "Erro na criacao de usuario",
-			"Usuario": body,
+			"Usuario": usuario,
 		})
 		return
 
 	} else {
 		c.JSON(200, gin.H{
 			"Message": "Usuario criado",
-			"Usuario": body,
+			"Usuario": usuario,
 		})
 	}
 
 }
 
-// TODO autenticacao
+// @Tags Usuarios
+// @Produce json
+// @Router /usuarios [get]
 func UsuariosReadAll(c *gin.Context) {
 
 	var usuarios []models.Usuario

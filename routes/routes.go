@@ -4,6 +4,8 @@ import (
 	"github.com/RenatoLopes771/Projeto-Eduardo/controllers"
 	"github.com/RenatoLopes771/Projeto-Eduardo/initializers"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -14,15 +16,21 @@ func DefineRoutes() {
 
 	r := gin.Default()
 
+	// swagger
+	r.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pppp",
 		})
 	})
 
-	r.POST("/usuarios/criar", controllers.UsuariosCreate)
+	usuariosR := r.Group("usuarios")
+	{
+		usuariosR.POST("/criar", controllers.UsuariosCreate)
 
-	r.GET("/usuarios", controllers.UsuariosReadAll)
+		usuariosR.GET("/", controllers.UsuariosReadAll)
+	}
 
 	r.Run()
 }

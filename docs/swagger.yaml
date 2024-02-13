@@ -1,0 +1,41 @@
+basePath: /
+host: localhost:3429
+info:
+  contact: {}
+  description: Para saber mais leia o README.md
+  title: Projeto do Desafio Go CRUD
+  version: "1.0"
+paths:
+  /usuarios:
+    get:
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - Usuarios
+  /usuarios/criar:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Nome
+        in: path
+        name: nome
+        required: true
+        type: string
+      - description: E-mail
+        in: path
+        name: email
+        required: true
+        type: string
+      - description: Senha
+        in: path
+        name: senha
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - Usuarios
+swagger: "2.0"
