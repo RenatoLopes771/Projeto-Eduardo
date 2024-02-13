@@ -1,4 +1,34 @@
 basePath: /
+definitions:
+  controllers.usuarioCreate:
+    properties:
+      email:
+        type: string
+      nome:
+        type: string
+      senha:
+        type: string
+    type: object
+  controllers.usuarioDelete:
+    properties:
+      id:
+        type: integer
+      senha:
+        type: string
+    type: object
+  controllers.usuarioUpdate:
+    properties:
+      emailAtual:
+        type: string
+      emailNovo:
+        type: string
+      nome:
+        type: string
+      senhaAtual:
+        type: string
+      senhaNova:
+        type: string
+    type: object
 host: localhost:3429
 info:
   contact: {}
@@ -7,6 +37,7 @@ info:
 paths:
   /usuarios:
     get:
+      description: Lista todos os usuários.
       produces:
       - application/json
       responses: {}
@@ -19,28 +50,12 @@ paths:
       description: Passe um email de um usuario existente. Preencha somente os campos
         que quer atualizar.
       parameters:
-      - description: Nome novo
-        in: path
-        name: nome
-        type: string
-      - description: E-mail atual
-        in: path
-        name: emailAtual
+      - description: Corpo JSON
+        in: body
+        name: JSON
         required: true
-        type: string
-      - description: E-mail novo
-        in: path
-        name: emailNovo
-        type: string
-      - description: Senha atual
-        in: path
-        name: senhaAtual
-        required: true
-        type: string
-      - description: Senha nova
-        in: path
-        name: senhaNova
-        type: string
+        schema:
+          $ref: '#/definitions/controllers.usuarioUpdate'
       produces:
       - application/json
       responses: {}
@@ -50,22 +65,31 @@ paths:
     post:
       consumes:
       - application/json
+      description: Cria um usuário.
       parameters:
-      - description: Nome
-        in: path
-        name: nome
+      - description: Corpo JSON
+        in: body
+        name: JSON
         required: true
-        type: string
-      - description: E-mail
-        in: path
-        name: email
+        schema:
+          $ref: '#/definitions/controllers.usuarioCreate'
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - Usuarios
+  /usuarios/deletar:
+    delete:
+      consumes:
+      - application/json
+      description: Passe um ID de um usuário existente e sua senha para o deletar.
+      parameters:
+      - description: Corpo JSON
+        in: body
+        name: JSON
         required: true
-        type: string
-      - description: Senha
-        in: path
-        name: senha
-        required: true
-        type: string
+        schema:
+          $ref: '#/definitions/controllers.usuarioDelete'
       produces:
       - application/json
       responses: {}

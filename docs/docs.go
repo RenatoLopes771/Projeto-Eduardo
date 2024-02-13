@@ -17,6 +17,7 @@ const docTemplate = `{
     "paths": {
         "/usuarios": {
             "get": {
+                "description": "Lista todos os usuários.",
                 "produces": [
                     "application/json"
                 ],
@@ -40,36 +41,13 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Nome novo",
-                        "name": "nome",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "E-mail atual",
-                        "name": "emailAtual",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "E-mail novo",
-                        "name": "emailNovo",
-                        "in": "path"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Senha atual",
-                        "name": "senhaAtual",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Senha nova",
-                        "name": "senhaNova",
-                        "in": "path"
+                        "description": "Corpo JSON",
+                        "name": "JSON",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.usuarioUpdate"
+                        }
                     }
                 ],
                 "responses": {}
@@ -77,6 +55,7 @@ const docTemplate = `{
         },
         "/usuarios/criar": {
             "post": {
+                "description": "Cria um usuário.",
                 "consumes": [
                     "application/json"
                 ],
@@ -88,28 +67,89 @@ const docTemplate = `{
                 ],
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Nome",
-                        "name": "nome",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "E-mail",
-                        "name": "email",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "Senha",
-                        "name": "senha",
-                        "in": "path",
-                        "required": true
+                        "description": "Corpo JSON",
+                        "name": "JSON",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.usuarioCreate"
+                        }
                     }
                 ],
                 "responses": {}
+            }
+        },
+        "/usuarios/deletar": {
+            "delete": {
+                "description": "Passe um ID de um usuário existente e sua senha para o deletar.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "parameters": [
+                    {
+                        "description": "Corpo JSON",
+                        "name": "JSON",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controllers.usuarioDelete"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "controllers.usuarioCreate": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "nome": {
+                    "type": "string"
+                },
+                "senha": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.usuarioDelete": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "senha": {
+                    "type": "string"
+                }
+            }
+        },
+        "controllers.usuarioUpdate": {
+            "type": "object",
+            "properties": {
+                "emailAtual": {
+                    "type": "string"
+                },
+                "emailNovo": {
+                    "type": "string"
+                },
+                "nome": {
+                    "type": "string"
+                },
+                "senhaAtual": {
+                    "type": "string"
+                },
+                "senhaNova": {
+                    "type": "string"
+                }
             }
         }
     }

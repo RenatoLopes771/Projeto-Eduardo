@@ -21,19 +21,22 @@ func usuarioReadByEmail(email string) (bool, models.Usuario) {
 	return true, usuario
 }
 
+type usuarioCreate struct {
+	Nome  string
+	Email string
+	Senha string
+}
+
+// @Description Cria um usuário.
 // @Tags Usuarios
 // @Accept json
 // @Produce json
-// @Param nome path string true "Nome"
-// @Param email path string true "E-mail"
-// @Param senha path string true "Senha"
+// @Param JSON body usuarioCreate{} true "Corpo JSON"
 // @Router /usuarios/criar [post]
 func UsuariosCreate(c *gin.Context) {
 
 	var body struct {
-		Nome  string
-		Email string
-		Senha string
+		usuarioCreate
 	}
 
 	c.BindJSON(&body)
@@ -99,6 +102,7 @@ func UsuariosCreate(c *gin.Context) {
 
 }
 
+// @Description Lista todos os usuários.
 // @Tags Usuarios
 // @Produce json
 // @Router /usuarios [get]
@@ -122,24 +126,24 @@ func UsuariosReadAll(c *gin.Context) {
 	})
 }
 
+type usuarioUpdate struct {
+	Nome       string
+	EmailAtual string
+	EmailNovo  string
+	SenhaAtual string
+	SenhaNova  string
+}
+
 // @Description Passe um email de um usuario existente. Preencha somente os campos que quer atualizar.
 // @Tags Usuarios
 // @Accept json
 // @Produce json
-// @Param nome path string false "Nome novo"
-// @Param emailAtual path string true "E-mail atual"
-// @Param emailNovo path string false "E-mail novo"
-// @Param senhaAtual path string true "Senha atual"
-// @Param senhaNova path string false "Senha nova"
+// @Param JSON body usuarioUpdate{} true "Corpo JSON"
 // @Router /usuarios/atualizar [put]
 func UsuariosUpdate(c *gin.Context) {
 
 	var body struct {
-		Nome       string
-		EmailAtual string
-		EmailNovo  string
-		SenhaAtual string
-		SenhaNova  string
+		usuarioUpdate
 	}
 
 	c.BindJSON(&body)
@@ -209,5 +213,61 @@ func UsuariosUpdate(c *gin.Context) {
 		"Message":     "Usuario atualizado com sucesso",
 		"Usuario":     usuarioAntigo,
 		"Observações": mensagem,
+	})
+}
+
+type usuarioDelete struct {
+	ID    int
+	Senha string
+}
+
+// @Description Passe um ID de um usuário existente e sua senha para o deletar.
+// @Tags Usuarios
+// @Accept json
+// @Produce json
+// @Param JSON body usuarioDelete{} true "Corpo JSON"
+// @Router /usuarios/deletar [delete]
+func UsuariosDelete(c *gin.Context) {
+
+	var body struct {
+		usuarioDelete
+	}
+
+	c.BindJSON(&body)
+
+	DB := database.Connect()
+
+	usuario := models.Usuario{}
+
+	dbResult := DB.First(&usuario, body.ID)
+
+	if dbResult.Error != nil {
+		c.JSON(400, gin.H{
+			"Message": "Erro ao deletar usuario",
+			"Usuario": body,
+		})
+		return
+	}
+
+	if usuario.Senha != body.Senha {
+		c.JSON(400, gin.H{
+			"Message": "Erro ao deletar usuario, senha incorreta",
+			"Usuario": body,
+		})
+		return
+	}
+
+	dbResult = DB.Delete(&usuario)
+
+	if dbResult.Error != nil {
+		c.JSON(400, gin.H{
+			"Message": "Erro ao deletar usuario",
+			"Usuario": body,
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"Message": "Usuario deletado com sucesso",
 	})
 }

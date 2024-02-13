@@ -21,7 +21,7 @@ func DefineRoutes() {
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pppp",
+			"Mensagem": "ping",
 		})
 	})
 
@@ -32,6 +32,8 @@ func DefineRoutes() {
 		usuariosR.GET("/", controllers.UsuariosReadAll)
 
 		usuariosR.PUT("/atualizar", controllers.UsuariosUpdate)
+
+		usuariosR.DELETE("/deletar", controllers.UsuariosDelete)
 	}
 
 	r.Run()
