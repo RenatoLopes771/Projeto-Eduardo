@@ -7,7 +7,6 @@ import (
 )
 
 // @title Projeto do Desafio Go CRUD
-// @version 1.0
 // @description Para saber mais leia o README.md
 // @host localhost:3429
 // @BasePath /

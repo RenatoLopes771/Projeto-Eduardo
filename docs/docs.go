@@ -26,6 +26,55 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/usuarios/atualizar": {
+            "put": {
+                "description": "Passe um email de um usuario existente. Preencha somente os campos que quer atualizar.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Usuarios"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Nome novo",
+                        "name": "nome",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "E-mail atual",
+                        "name": "emailAtual",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "E-mail novo",
+                        "name": "emailNovo",
+                        "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Senha atual",
+                        "name": "senhaAtual",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Senha nova",
+                        "name": "senhaNova",
+                        "in": "path"
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/usuarios/criar": {
             "post": {
                 "consumes": [
@@ -68,7 +117,7 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
+	Version:          "",
 	Host:             "localhost:3429",
 	BasePath:         "/",
 	Schemes:          []string{},

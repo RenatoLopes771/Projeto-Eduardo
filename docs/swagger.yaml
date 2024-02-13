@@ -4,10 +4,43 @@ info:
   contact: {}
   description: Para saber mais leia o README.md
   title: Projeto do Desafio Go CRUD
-  version: "1.0"
 paths:
   /usuarios:
     get:
+      produces:
+      - application/json
+      responses: {}
+      tags:
+      - Usuarios
+  /usuarios/atualizar:
+    put:
+      consumes:
+      - application/json
+      description: Passe um email de um usuario existente. Preencha somente os campos
+        que quer atualizar.
+      parameters:
+      - description: Nome novo
+        in: path
+        name: nome
+        type: string
+      - description: E-mail atual
+        in: path
+        name: emailAtual
+        required: true
+        type: string
+      - description: E-mail novo
+        in: path
+        name: emailNovo
+        type: string
+      - description: Senha atual
+        in: path
+        name: senhaAtual
+        required: true
+        type: string
+      - description: Senha nova
+        in: path
+        name: senhaNova
+        type: string
       produces:
       - application/json
       responses: {}

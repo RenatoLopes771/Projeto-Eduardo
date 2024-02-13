@@ -30,6 +30,8 @@ func DefineRoutes() {
 		usuariosR.POST("/criar", controllers.UsuariosCreate)
 
 		usuariosR.GET("/", controllers.UsuariosReadAll)
+
+		usuariosR.PUT("/atualizar", controllers.UsuariosUpdate)
 	}
 
 	r.Run()
